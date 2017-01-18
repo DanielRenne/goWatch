@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/exec"
 	"os/signal"
+	"path/filepath"
 
 	"github.com/rjeczalik/notify"
 )
@@ -18,6 +19,7 @@ type WatcherConfig struct {
 type Watcher struct {
 	Directories []string `json:"directories"`
 	Tasks       []string `json:"tasks"`
+	Extensions  []string `json:"extensions"`
 }
 
 func main() {
@@ -80,10 +82,26 @@ func watch(w Watcher) {
 	ei := <-c
 	log.Println("Got event:", ei)
 
-	//Run the Tasks
-	for _, task := range w.Tasks {
-		output, _ := exec.Command(task).CombinedOutput()
-		log.Println("Successfully ran " + task + ":  " + string(output))
+	extensionChanged := false
+
+	if len(w.Extensions) == 0 {
+		extensionChanged = true
+	} else {
+		changedExtension := filepath.Ext(ei.Path())
+		for _, ext := range w.Extensions {
+			if ext == changedExtension {
+				extensionChanged = true
+				break
+			}
+		}
+	}
+
+	//Run the Tasks if the proper extension was changed
+	if extensionChanged {
+		for _, task := range w.Tasks {
+			output, _ := exec.Command(task).CombinedOutput()
+			log.Println("Successfully ran " + task + ":  " + string(output))
+		}
 	}
 
 	watch(w)
