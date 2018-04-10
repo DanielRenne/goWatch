@@ -8,8 +8,6 @@ import (
 	"os/exec"
 	"os/signal"
 	"path/filepath"
-	"time"
-
 	"github.com/rjeczalik/notify"
 )
 
@@ -99,10 +97,18 @@ func watch(w Watcher) {
 
 	//Run the Tasks if the proper extension was changed
 	if extensionChanged {
-		time.Sleep(time.Millisecond * 500)
 		for _, task := range w.Tasks {
-			output, _ := exec.Command(task).CombinedOutput()
-			log.Println("Successfully ran " + task + ":  " + string(output))
+			tsk := task
+			go func(){
+				log.Println("Running " + tsk)
+				cmd := exec.Command(tsk)
+				err := cmd.Run()
+				if err == nil {
+					log.Println("Successfully ran " + tsk)
+				} else {
+					log.Println("Failed to run " + tsk + " err: " + err.Error())
+				}
+			}()
 		}
 	}
 
