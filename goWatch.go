@@ -18,7 +18,8 @@ type WatcherConfig struct {
 }
 
 type Config struct {
-	DelayBetweenFileChanges int `json:"delayBetweenFileChanges"`
+	DelayBetweenFileChanges int `json:"maxDelayBetweenMultipleFileChanges"`
+	DelayBetweenCommands int `json:"delayBetweenCommands"`
 	MassFileChangeCommand []string `json:"massFileChangeCommand"`
 }
 
@@ -131,7 +132,7 @@ func watch(w Watcher, conf Config) {
 					log.Println("Failed to run " + tsk + " err: " + err.Error())
 				}
 			}()
-			time.Sleep(time.Second * 3)
+			time.Sleep(time.Second * conf.DelayBetweenCommands)
 		}
 	}
 
