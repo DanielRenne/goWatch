@@ -19,6 +19,7 @@ type WatcherConfig struct {
 
 type Config struct {
 	DelayBetweenFileChanges int `json:"delayBetweenFileChanges"`
+	MassFileChangeCommand []string `json:"massFileChangeCommand"`
 }
 
 type Watcher struct {
