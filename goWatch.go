@@ -132,7 +132,7 @@ func watch(w Watcher, conf Config) {
 					log.Println("Failed to run " + tsk + " err: " + err.Error())
 				}
 			}()
-			time.Sleep(time.Second * conf.DelayBetweenCommands)
+			time.Sleep(time.Second * time.Duration(conf.DelayBetweenCommands))
 		}
 	}
 
