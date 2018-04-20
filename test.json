@@ -1,9 +1,9 @@
 {
-	"config": {
-		"maxDelayBetweenMultipleFileChanges": 25,
-		"delayBetweenCommands": 3,
-		"massFileChangeCommand": ["ls"],
-	},
+  "config": {
+    "maxDelayBetweenMultipleFileChanges": 25,
+    "delayBetweenCommands": 3,
+    "massFileChangeCommand": ["ls"],
+  },
   "watchers":[
     {
       "directories":["test"],
