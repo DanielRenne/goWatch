@@ -2,7 +2,7 @@
   "config": {
     "maxDelayBetweenMultipleFileChanges": 25,
     "delayBetweenCommands": 3,
-    "massFileChangeCommand": ["ls"],
+    "massFileChangeCommand": ["ls"]
   },
   "watchers":[
     {
